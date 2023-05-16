@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ import cn.edu.hjnu.common.utils.R;
  * @email 784460900@qq.com
  * @date 2023-05-10 12:44:40
  */
-@Component
+
 @RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
@@ -35,15 +35,12 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
-    @Value("${coupon.user.name}")
-    private String name;
-
-    @Value("${coupon.user.age}")
-    private int age;
+   @Autowired
+   CloudConfig cloudConfig;
 
     @RequestMapping("/nacos")
     public R nacos(){
-        return R.ok().put("name", name).put("age", age);
+        return R.ok().put("name", cloudConfig.getName()).put("age", cloudConfig.getAge());
     }
 
 
