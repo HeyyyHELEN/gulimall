@@ -1,7 +1,10 @@
 package cn.edu.hjnu.gulimall.product.service.impl;
 
+import cn.edu.hjnu.gulimall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,6 +19,7 @@ import cn.edu.hjnu.common.utils.Query;
 import cn.edu.hjnu.gulimall.product.dao.CategoryDao;
 import cn.edu.hjnu.gulimall.product.entity.CategoryEntity;
 import cn.edu.hjnu.gulimall.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryService")
@@ -34,6 +38,34 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public void removeMenuByIds(List<Long> catIds) {
         baseMapper.deleteBatchIds(catIds);
+    }
+
+    @Override
+    public Long[] findCatelogPath(Long catelogId) {
+        ArrayList<Long> paths = new ArrayList<>();
+        List<Long> parentPath = findParentPath(catelogId, paths);
+        return parentPath.toArray(new Long[parentPath.size()]);
+    }
+
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
+
+    //级联更新所有关联的数据
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+    }
+
+    public List<Long> findParentPath(Long catelogId, ArrayList<Long> paths) {
+        //1、收集当前节点id
+        CategoryEntity byId = this.getById(catelogId);
+        if (byId.getParentCid() != 0){
+            findParentPath(byId.getParentCid(), paths);
+        }
+        paths.add(catelogId);
+        return paths;
     }
 
     @Override
