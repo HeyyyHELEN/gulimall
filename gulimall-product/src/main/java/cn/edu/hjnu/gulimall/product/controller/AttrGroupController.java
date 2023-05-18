@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.hjnu.gulimall.product.entity.AttrEntity;
+import cn.edu.hjnu.gulimall.product.service.AttrAttrgroupRelationService;
 import cn.edu.hjnu.gulimall.product.service.AttrService;
 import cn.edu.hjnu.gulimall.product.service.CategoryService;
 import cn.edu.hjnu.gulimall.product.vo.AttrGroupRelationVo;
@@ -37,6 +38,15 @@ public class AttrGroupController {
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    AttrAttrgroupRelationService relationService;
+
+    @PostMapping("/attr/relation")
+    public R attrRelation(@RequestBody List<AttrGroupRelationVo> vos){
+        relationService.saveBatch(vos);
+        return R.ok();
+    }
 
     @GetMapping("/{attrgroupId}/noattr/relation")
     public R attrNoRelation(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam Map<String, Object> params){
