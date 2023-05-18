@@ -1,15 +1,15 @@
 package cn.edu.hjnu.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import cn.edu.hjnu.gulimall.product.entity.AttrEntity;
+import cn.edu.hjnu.gulimall.product.service.AttrService;
 import cn.edu.hjnu.gulimall.product.service.CategoryService;
+import cn.edu.hjnu.gulimall.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.edu.hjnu.gulimall.product.entity.AttrGroupEntity;
 import cn.edu.hjnu.gulimall.product.service.AttrGroupService;
@@ -28,8 +28,33 @@ import cn.edu.hjnu.common.utils.R;
 @RestController
 @RequestMapping("product/attrgroup")
 public class AttrGroupController {
+
     @Autowired
     private AttrGroupService attrGroupService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private AttrService attrService;
+
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam Map<String, Object> params){
+        PageUtils page = attrService.getNoRelationAttr(params,attrgroupId);
+        return R.ok().put("page",page);
+    }
+
+    @PostMapping("/attr/relation/delete")
+    public R attrRelationDelete(@RequestBody AttrGroupRelationVo[] vos){
+        attrService.deleteRelation(vos);
+        return R.ok();
+    }
+
+    @GetMapping("/{attrgroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId){
+        List<AttrEntity> data = attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data",data);
+    }
 
     /**
      * 列表
@@ -42,8 +67,7 @@ public class AttrGroupController {
     }
 
 
-    @Autowired
-    private CategoryService categoryService;
+
 
     /**
      * 信息
