@@ -1,8 +1,12 @@
 package cn.edu.hjnu.gulimall.product.controller;
 
+import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import cn.edu.hjnu.gulimall.product.entity.ProductAttrValueEntity;
+import cn.edu.hjnu.gulimall.product.service.ProductAttrValueService;
 import cn.edu.hjnu.gulimall.product.vo.AttrRespVo;
 import cn.edu.hjnu.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +28,24 @@ import cn.edu.hjnu.common.utils.R;
 @RestController
 @RequestMapping("product/attr")
 public class AttrController {
+
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValueEntity> entities){
+        productAttrValueService.updateSpuAttr(spuId,entities);
+        return R.ok();
+    }
+
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseListforspu(@PathVariable("spuId") Long spuId){
+        List<ProductAttrValueEntity> entityList = productAttrValueService.baseAttrlistForSpu(spuId);
+        return R.ok().put("data",entityList);
+    }
 
 
     @RequestMapping("/{attrType}/list/{catelogId}")

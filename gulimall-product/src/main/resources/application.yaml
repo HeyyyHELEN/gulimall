@@ -4,6 +4,8 @@ spring:
     password: root
     url: jdbc:mysql://192.168.2.10:3312/gulimall_pms
     driver-class-name: com.mysql.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
   application:
     name: gulimall-product
 mybatis-plus:

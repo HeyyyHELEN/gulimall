@@ -1,6 +1,9 @@
 server:
   port: 11000
 
+jackson:
+  date-format: yyyy-MM-dd HH:mm:ss
+
 spring:
   datasource:
     username: root
@@ -14,3 +17,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+logging:
+  level:
+    cn.edu.hjnu: debug
