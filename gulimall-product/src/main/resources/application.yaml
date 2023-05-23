@@ -8,11 +8,19 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   application:
     name: gulimall-product
+  thymeleaf:
+    cache: false
+
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
 
+logging:
+  level:
+    cn.edu.hjnu: debug
+
 server:
   port: 12000
+
