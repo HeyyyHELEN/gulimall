@@ -26,6 +26,7 @@ public class Catelog2Vo {
         private String catelog2Id;  // 2级父分类ID
         private String id;  // 3级分类ID
         private String name;  // 3级分类name
+
     }
 }
 

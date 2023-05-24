@@ -7,6 +7,8 @@ import cn.edu.hjnu.gulimall.product.service.CategoryBrandRelationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 
 
 @SpringBootTest
@@ -15,8 +17,8 @@ class GulimallProductApplicationTests {
     @Autowired
     BrandService brandService;
 
-
-
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
     @Test
     void contextLoads() {
@@ -24,6 +26,14 @@ class GulimallProductApplicationTests {
         brandEntity.setName("华为");
         brandService.save(brandEntity);
         System.out.println("保存成功...");
+    }
+
+    @Test
+    void testredisTemplate(){
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        operations.set("a","aa");
+        String a = operations.get("a");
+        System.out.println(a);
     }
 
 }
