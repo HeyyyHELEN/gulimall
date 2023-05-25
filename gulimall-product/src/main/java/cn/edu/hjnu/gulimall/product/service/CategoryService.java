@@ -34,5 +34,7 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     Map<String, List<Catelog2Vo>> getCatalogJsonAddCache();
 
+    Map<String, List<Catelog2Vo>> getCatalogJsonBySpringCache();
+
 }
 

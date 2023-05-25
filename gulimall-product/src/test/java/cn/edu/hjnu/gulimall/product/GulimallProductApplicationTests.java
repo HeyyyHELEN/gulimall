@@ -5,6 +5,7 @@ import cn.edu.hjnu.gulimall.product.entity.CategoryBrandRelationEntity;
 import cn.edu.hjnu.gulimall.product.service.BrandService;
 import cn.edu.hjnu.gulimall.product.service.CategoryBrandRelationService;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,6 +20,14 @@ class GulimallProductApplicationTests {
 
     @Autowired
     StringRedisTemplate redisTemplate;
+
+    @Autowired
+    RedissonClient redissonClient;
+
+    @Test
+    void testredissonClient(){
+        System.out.println(redissonClient);
+    }
 
     @Test
     void contextLoads() {
@@ -35,5 +44,7 @@ class GulimallProductApplicationTests {
         String a = operations.get("a");
         System.out.println(a);
     }
+
+
 
 }
